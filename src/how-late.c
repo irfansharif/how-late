@@ -3,10 +3,20 @@
 #define KEY_TEMPERATURE 0
 
 static int s_index = 0;
+
 static Window *window;
 static TextLayer *text_layer;
 static GDrawCommandSequence *s_command_seq;
 static Layer *s_canvas_layer;
+
+static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+  if(tick_time->tm_min % 5 == 0) {
+    DictionaryIterator *iter;
+    app_message_outbox_begin(&iter);
+    dict_write_uint8(iter, 0, 0);
+    app_message_outbox_send();
+  }
+}
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   APP_LOG(APP_LOG_LEVEL_INFO, "Message received!");
@@ -25,15 +35,15 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
+  
 }
 
 static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+ 
 }
 
 static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
+  
 }
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -55,11 +65,8 @@ static void click_config_provider(void *context) {
 }
 
 static void next_frame_handler(void *context) {
-  // Draw the next frame
-  layer_mark_dirty(s_canvas_layer);
-
-  // Continue the sequence
-  app_timer_register(DELTA, next_frame_handler, NULL);
+  layer_mark_dirty(s_canvas_layer); // Draw the next frame
+  app_timer_register(DELTA, next_frame_handler, NULL); // Continue the sequence
 }
 
 static void update_proc(Layer *layer, GContext *ctx) {
@@ -71,7 +78,7 @@ static void update_proc(Layer *layer, GContext *ctx) {
 
   // Advance to the next frame, wrapping if neccessary
   int num_frames = gdraw_command_sequence_get_num_frames(s_command_seq);
-  s_index++;
+  s_index = s_index + 1;
   if (s_index == num_frames) {
     s_index = 0;
   }
@@ -105,15 +112,17 @@ static void init(void) {
   app_message_register_inbox_dropped(inbox_dropped_callback);
   app_message_register_outbox_failed(outbox_failed_callback);
   app_message_register_outbox_sent(outbox_sent_callback);
-
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
   s_command_seq = gdraw_command_sequence_create_with_resource(RESOURCE_ID_CLOCK_SEQUENCE);
+  
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
     .unload = window_unload,
   });
+
   const bool animated = true;
   window_stack_push(window, animated);
 }

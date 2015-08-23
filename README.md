@@ -24,3 +24,20 @@ git clone https://github.com/irfansharif/how-late.git
 cd how-late
 pebble build && pebble install --emulator basalt
 ```
+
+#### Debugging
+> For debugging purposes add the following to any C & JavaScript code respectively
+
+```C
+APP_LOG(APP_LOG_LEVEL_INFO, "Hello, is it me you're looking for?");
+```
+```JavaScript
+console.log('I can see it in your eyes')
+```
+> To view the logs during runtime in a separate terminal window execute
+
+```sh
+pebble logs --emulator basalt
+```
+
+

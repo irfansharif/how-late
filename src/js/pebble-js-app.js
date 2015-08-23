@@ -4,6 +4,13 @@ Pebble.addEventListener('ready',
   }
 )
 
+Pebble.addEventListener('appmessage',
+  function(e) {
+    console.log('AppMessage received!')
+    navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions)
+  }                     
+);
+
 function getWeather(lat, long) {
 	var url = 'http://api.openweathermap.org/data/2.1/find/city?lat=' + lat + '&lon=' + long + '&cnt=1'
 
@@ -15,14 +22,11 @@ function getWeather(lat, long) {
 	    if(req.status == 200) {
 
 	      var response = JSON.parse(req.responseText)
-	      console.log(JSON.stringify(response, null, 2))
 	      var temperature = response.list[0].main.temp
 	      // Pebble.showSimpleNotificationOnPebble('title', 'text')
-
 	      var dict = {
 		    'KEY_TEMPERATURE':temperature.toString()
 		  }
-
 		  Pebble.sendAppMessage(dict,
 		    function(e) {
 		      console.log('Send successful')
