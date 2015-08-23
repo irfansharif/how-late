@@ -3,3 +3,5 @@ build
 .lock-waf*
 pebble-screenshot*
 .*.swp
+.idea
+CMakeLists.txt

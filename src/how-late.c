@@ -1,4 +1,8 @@
 #include <pebble.h>
+#include "click-config.h"
+#include "app-message-handlers.h"
+#include "../build/basalt/src/resource_ids.auto.h"
+
 #define DELTA 13
 #define KEY_TEMPERATURE 0
 
@@ -18,52 +22,6 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   }
 }
 
-static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "Message received!");
-  Tuple *t = dict_read_first(iterator);
-  while(t != NULL) {
-    static char s_buffer[64];
-    switch (t->key) {
-      case KEY_TEMPERATURE:
-        APP_LOG(APP_LOG_LEVEL_INFO, "KEY_TEMPERATURE received with value %s", t->value->cstring);
-        snprintf(s_buffer, sizeof(s_buffer), "Received '%s'", t->value->cstring);
-        text_layer_set_text(text_layer,s_buffer);
-        break;
-    }
-    t = dict_read_next(iterator);
-  }
-}
-
-static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-  
-}
-
-static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
- 
-}
-
-static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-  
-}
-
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-
-}
-
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-
-}
-
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-
-}
-
-static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
-  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
-}
-
 static void next_frame_handler(void *context) {
   layer_mark_dirty(s_canvas_layer); // Draw the next frame
   app_timer_register(DELTA, next_frame_handler, NULL); // Continue the sequence
@@ -76,7 +34,7 @@ static void update_proc(Layer *layer, GContext *ctx) {
     gdraw_command_frame_draw(ctx, s_command_seq, frame, GPoint(0, 30));
   }
 
-  // Advance to the next frame, wrapping if neccessary
+  // Advance to the next frame, wrapping if necessary
   int num_frames = gdraw_command_sequence_get_num_frames(s_command_seq);
   s_index = s_index + 1;
   if (s_index == num_frames) {
@@ -97,6 +55,9 @@ static void window_load(Window *window) {
   text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
 
+  app_message_set_context(text_layer);
+  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
+
   app_timer_register(DELTA, next_frame_handler, NULL);
 }
 
@@ -112,7 +73,6 @@ static void init(void) {
   app_message_register_inbox_dropped(inbox_dropped_callback);
   app_message_register_outbox_failed(outbox_failed_callback);
   app_message_register_outbox_sent(outbox_sent_callback);
-  app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
   s_command_seq = gdraw_command_sequence_create_with_resource(RESOURCE_ID_CLOCK_SEQUENCE);
   
