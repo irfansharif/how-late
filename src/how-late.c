@@ -1,6 +1,6 @@
 #include <pebble.h>
 #define DELTA 13
-#define KEY_DATA 5
+#define KEY_TEMPERATURE 0
 
 static int s_index = 0;
 static Window *window;
@@ -10,14 +10,12 @@ static Layer *s_canvas_layer;
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   APP_LOG(APP_LOG_LEVEL_INFO, "Message received!");
-
   Tuple *t = dict_read_first(iterator);
-
   while(t != NULL) {
     static char s_buffer[64];
     switch (t->key) {
-      case KEY_DATA:
-        APP_LOG(APP_LOG_LEVEL_INFO, "KEY_DATA received with value %s", t->value->cstring);
+      case KEY_TEMPERATURE:
+        APP_LOG(APP_LOG_LEVEL_INFO, "KEY_TEMPERATURE received with value %s", t->value->cstring);
         snprintf(s_buffer, sizeof(s_buffer), "Received '%s'", t->value->cstring);
         text_layer_set_text(text_layer,s_buffer);
         break;
@@ -39,15 +37,15 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 }
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  // text_layer_set_text(text_layer, "Select");
+
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-  // text_layer_set_text(text_layer, "Up");
+
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  // text_layer_set_text(text_layer, "Down");
+
 }
 
 static void click_config_provider(void *context) {
@@ -88,7 +86,7 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, s_canvas_layer);
 
   text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
-  text_layer_set_text(text_layer, "Press a button");
+  text_layer_set_text(text_layer, "Waiting..");
   text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
 

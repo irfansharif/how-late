@@ -11,17 +11,15 @@
     "watchface": false
   },
   "appKeys": {
-   "KEY_DATA": 5
+   "KEY_TEMPERATURE": 0
   },
   "resources": {
-    "media": [ {
-        "type": "raw",
-        "name": "WEATHER_IMAGE",
-        "file": "weather_image.pdc"
-      }, {
+    "media": [ 
+      {
         "type": "raw",
         "name": "CLOCK_SEQUENCE",
         "file": "clock_sequence.pdc"
-      }]
+      }
+    ]
   }
 }
