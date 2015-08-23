@@ -2,17 +2,26 @@
   "uuid": "fb513208-d6b7-4617-ae8f-42584033bc37",
   "shortName": "how-late",
   "longName": "how-late",
+  "capabilities": ["location", "configurable"],
   "companyName": "MakeAwesomeHappen",
   "versionLabel": "1.0",
   "sdkVersion": "3",
-  "targetPlatforms": ["aplite", "basalt"],
+  "targetPlatforms": ["basalt"],
   "watchapp": {
     "watchface": false
   },
   "appKeys": {
-    "dummy": 0
+   "KEY_DATA": 5
   },
   "resources": {
-    "media": []
+    "media": [ {
+        "type": "raw",
+        "name": "WEATHER_IMAGE",
+        "file": "weather_image.pdc"
+      }, {
+        "type": "raw",
+        "name": "CLOCK_SEQUENCE",
+        "file": "clock_sequence.pdc"
+      }]
   }
 }
