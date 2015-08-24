@@ -5,3 +5,4 @@ pebble-screenshot*
 .*.swp
 .idea
 CMakeLists.txt
+build-script.sh
