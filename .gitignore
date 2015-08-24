@@ -6,3 +6,4 @@ pebble-screenshot*
 .idea
 CMakeLists.txt
 build-script.sh
+server/node_modules
