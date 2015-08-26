@@ -1,11 +1,10 @@
-Pebble.addEventListener('ready',
-  function(e) {
-    navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions)
-  }
-)
-
-var GOOGLE_CLIENT_ID = "...";
-var GOOGLE_CLIENT_SECRET = "...";
+var GOOGLE_CLIENT_ID = "981228318952-461p89bbvhec22j10o80qc3k6d6vuoso.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET = "dNEEOFUVr_RtTc4t1lJ5p4t_";
+var SERVER = 'http://localhost:8000'
+var locationOptions = {
+  enableHighAccuracy: true, 
+  maximumAge: 10000, 
+  timeout: 10000}
 
 // Retrieves the refresh_token and access_token.
 // - code - the authorization code from Google.
@@ -31,7 +30,7 @@ function resolve_tokens(code) {
     req.send("code="+encodeURIComponent(code)
             +"&client_id="+GOOGLE_CLIENT_ID
             +"&client_secret="+GOOGLE_CLIENT_SECRET
-            +"&redirect_uri=http://localhost:8000/catchauth.html"
+            +"&redirect_uri=" + SERVER + "/catchauth.html"
             +"&grant_type=authorization_code");
 }
 
@@ -119,7 +118,7 @@ function show_configuration() {
         "code_error": code_error
     });
 
-    Pebble.openURL("http://localhost:8000/configuration.html#" + json);
+    Pebble.openURL(SERVER + "/configuration.html#" + json);
 }
 
 // When you click Save on the configuration.html page, recieve the configuration response here.
@@ -143,6 +142,14 @@ function webview_closed(e) {
 // Setup the configuration events
 Pebble.addEventListener("showConfiguration", show_configuration);
 Pebble.addEventListener("webviewclosed", webview_closed);
+
+//////////////////////////
+
+Pebble.addEventListener('ready',
+  function(e) {
+    navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions)
+  }
+)
 
 Pebble.addEventListener('appmessage',
   function(e) {
@@ -181,12 +188,6 @@ function getWeather(lat, long) {
 	  }
 	}
 	req.send(null)
-}
-
-var locationOptions = {
-  enableHighAccuracy: true, 
-  maximumAge: 10000, 
-  timeout: 10000
 }
 
 function locationSuccess(pos) {
