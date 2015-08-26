@@ -6,22 +6,6 @@
     <body>
         <script type="text/javascript">
             var CONFIG_URL = 'configuration.html#';
-            function next_page(conf) {
-                var json = JSON.stringify(conf);
-                window.location.href = CONFIG_URL + json;
-            }
-
-            function error(msg) {
-                next_page({
-                    "code": '',
-                    "code_error": msg
-                });
-            }
-
-            var code_info = window.location.search;
-            if (code_info) {
-                code_info = code_info.substring(1);
-            }
 
             var code_info = window.location.search;
             if (code_info) {
@@ -43,6 +27,18 @@
             }
             else {
                 error('You did not grant the Watchapp access to your calendar (-1).');
+            }
+
+            function next_page(conf) {
+                var json = JSON.stringify(conf);
+                window.location.href = CONFIG_URL + json;
+            }
+
+            function error(msg) {
+                next_page({
+                    "code": '',
+                    "code_error": msg
+                });
             }
         </script>
     </body>

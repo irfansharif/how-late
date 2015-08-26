@@ -6,7 +6,7 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     </head>
     <body>
-        <h1>HowLate Configuration</h1>
+        <h1>How-Late Configuration</h1>
 
         <script id="hb-template" type="text/x-handlebars-template">
         {{#if code}}<p>Google Calendar is setup.</p>{{/if}}
@@ -14,17 +14,16 @@
 
         {{#unless code}}
         <p><a href="https://accounts.google.com/o/oauth2/auth?response_type=code&access_type=offline&prompt=consent%20select_account&client_id=981228318952-461p89bbvhec22j10o80qc3k6d6vuoso.apps.googleusercontent.com&redirect_uri=http://localhost:8000/catchauth.html&scope=https://www.googleapis.com/auth/calendar.readonly">
-            Give Watchapp access to your Google Calendar
+            Give How-Late access to your Google Calendar
         </a></p>
         {{/unless}}
         {{#if code}}<p><a href="javascript:void(0)" id="clear-code">Stop using your Google Calendar</a></p>
 
         <p>Clicking the link above does not prevent the Watchapp from
         having access to your calendar, it just tells it to stop using it. To
-        completely disable access to your calendar, you need to visit the <a
-        completely disable access to your calendar, you need to visit the <a
-            href="https://security.google.com/settings/security/permissions?pli=1">Google
-            Account Permissions</a> page to revoke access to this
+        completely disable access to your calendar, you need to visit the
+        <a href="https://security.google.com/settings/security/permissions?pli=1">Google
+        Account Permissions</a> page to revoke access to this
         watch application.</p>
         {{/if}}
 
