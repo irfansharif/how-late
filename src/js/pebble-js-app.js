@@ -129,6 +129,7 @@ function do_google_api() {
             }
         };
         req.send();
+    }
 }
 
 // When you click on Settings in Pebble's phone app. Go to the configuration.html page.
