@@ -1,7 +1,6 @@
 #include <pebble.h>
 #include "click-config.h"
 #include "app-message-handlers.h"
-#include "../build/basalt/src/resource_ids.auto.h"
 
 #define DELTA 13
 #define KEY_TEMPERATURE 0
