@@ -1,10 +1,6 @@
 var GOOGLE_CLIENT_ID = "981228318952-461p89bbvhec22j10o80qc3k6d6vuoso.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "dNEEOFUVr_RtTc4t1lJ5p4t_";
-var SERVER = 'http://localhost:8000'
-var locationOptions = {
-  enableHighAccuracy: true, 
-  maximumAge: 10000, 
-  timeout: 10000}
+var SERVER = 'http://localhost:8000';
 
 // Retrieves the refresh_token and access_token.
 // - code - the authorization code from Google.
@@ -41,7 +37,11 @@ function use_access_token(code) {
     var refresh_token = db.getItem("refresh_token");
     var access_token = db.getItem("access_token");
 
-    if (!refresh_token) return;
+    if (!refresh_token) {
+        Pebble.showSimpleNotificationOnPebble('Setup', 'Configure your calendar through settings on your phone');
+        code("access_token");
+        return;
+    }
 
     valid_token(access_token, code, function() {
         refresh_access_token(refresh_token, code)
@@ -70,7 +70,6 @@ function valid_token(access_token, good, bad) {
 
             good(access_token);
         }
-
         bad();
     };
     req.send(null);
@@ -103,6 +102,18 @@ function refresh_access_token(refresh_token, code) {
 function do_google_api() {
     use_access_token(function(access_token) {
         // Use access token to make request to Calendar API
+        var temperature = "Ridiculous";
+        var dict = {
+            'KEY_TEMPERATURE':temperature.toString()
+        }
+        Pebble.sendAppMessage(dict,
+            function(e) {
+                console.log('Send successful')
+            },
+            function(e) {
+                console.log('Send failed!')
+            }
+        )
     });
 }
 
@@ -143,57 +154,14 @@ function webview_closed(e) {
 Pebble.addEventListener("showConfiguration", show_configuration);
 Pebble.addEventListener("webviewclosed", webview_closed);
 
-//////////////////////////
-
 Pebble.addEventListener('ready',
   function(e) {
-    navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions)
+      do_google_api();
   }
 )
 
 Pebble.addEventListener('appmessage',
   function(e) {
-    console.log('AppMessage received!')
-    navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions)
-  }                     
+      do_google_api();
+  }
 );
-
-function getWeather(lat, long) {
-	var url = 'http://api.openweathermap.org/data/2.1/find/city?lat=' + lat + '&lon=' + long + '&cnt=1'
-
-	var req = new XMLHttpRequest()
-	req.open('GET', url, true)
-	req.onload = function(e) {
-
-	  if (req.readyState == 4 && req.status == 200) {
-	    if(req.status == 200) {
-
-	      var response = JSON.parse(req.responseText)
-	      var temperature = response.list[0].main.temp
-	      // Pebble.showSimpleNotificationOnPebble('title', 'text')
-	      var dict = {
-		    'KEY_TEMPERATURE':temperature.toString()
-		  }
-		  Pebble.sendAppMessage(dict,
-		    function(e) {
-		      console.log('Send successful')
-		    },
-		    function(e) {
-		      console.log('Send failed!')
-		    }
-		  )
-	    } else { 
-	    	console.log('Error') 
-	    }
-	  }
-	}
-	req.send(null)
-}
-
-function locationSuccess(pos) {
-  getWeather(pos.coords.latitude, pos.coords.longitude)
-}
-
-function locationError(err) {
-  console.log('location error (' + err.code + '): ' + err.message)
-}
