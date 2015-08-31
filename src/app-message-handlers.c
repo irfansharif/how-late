@@ -1,6 +1,10 @@
 #include <pebble.h>
 #include "app-message-handlers.h"
-#define KEY_TEMPERATURE 0
+#define COURSE_TITLE 0
+#define CLASS_LOCATION 1
+#define CLASS_TYPE 2
+#define START_TIME 3
+#define END_TIME 4
 
 void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   TextLayer *tl = (TextLayer*) context;
@@ -9,8 +13,8 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   while(t != NULL) {
     static char s_buffer[64];
     switch (t->key) {
-      case KEY_TEMPERATURE:
-        APP_LOG(APP_LOG_LEVEL_INFO, "KEY_TEMPERATURE received with value %s", t->value->cstring);
+      case COURSE_TITLE:
+        APP_LOG(APP_LOG_LEVEL_INFO, "COURSE_TITLE received with value %s", t->value->cstring);
         snprintf(s_buffer, sizeof(s_buffer), "Received '%s'", t->value->cstring);
         text_layer_set_text(tl, s_buffer);
         break;

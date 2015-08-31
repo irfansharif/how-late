@@ -39,7 +39,7 @@ function use_access_token(code) {
 
     if (!refresh_token) {
         Pebble.showSimpleNotificationOnPebble('Setup', 'Configure your calendar through settings on your phone');
-        code("access_token");
+        code("Physics");
         return;
     }
 
@@ -102,9 +102,8 @@ function refresh_access_token(refresh_token, code) {
 function do_google_api() {
     use_access_token(function(access_token) {
         // Use access token to make request to Calendar API
-        var temperature = "Ridiculous";
         var dict = {
-            'KEY_TEMPERATURE':temperature.toString()
+            'COURSE_TITLE':access_token.toString()
         }
         Pebble.sendAppMessage(dict,
             function(e) {

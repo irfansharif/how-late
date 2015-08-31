@@ -2,8 +2,6 @@
 #include "click-config.h"
 #include "app-message-handlers.h"
 
-#define KEY_TEMPERATURE 0
-
 static Window *window;
 static TextLayer *text_layer;
 
