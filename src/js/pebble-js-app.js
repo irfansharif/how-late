@@ -39,7 +39,6 @@ function use_access_token(code) {
 
     if (!refresh_token) {
         Pebble.showSimpleNotificationOnPebble('Setup', 'Configure your calendar through settings on your phone');
-        code("Physics");
         return;
     }
 
