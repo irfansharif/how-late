@@ -11,18 +11,20 @@
     "watchface": false
   },
   "appKeys": {
-    "COURSE_TITLE": 0,
-    "CLASS_LOCATION": 1,
-    "CLASS_TYPE": 2,
-    "START_TIME": 3,
-    "END_TIME": 4
+    "FN_CLASS_FINISHED": 0,
+    "FN_GET_NEXT_CLASS": 1,
+    "FN_GET_PREV_CLASS": 2,
+    "CLASS_INDEX": 10,
+    "COURSE_TITLE": 11,
+    "CLASS_LOCATION": 12,
+    "CLASS_TYPE": 13,
+    "START_TIME": 14,
+    "END_TIME": 15
   },
   "resources": {
     "media": [ 
       {
-        "type": "raw",
-        "name": "CLOCK_SEQUENCE",
-        "file": "clock_sequence.pdc"
+
       }
     ]
   }

@@ -6,12 +6,11 @@ static Window *window;
 static TextLayer *text_layer;
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  if(tick_time->tm_min % 5 == 0) {
-    DictionaryIterator *iter;
-    app_message_outbox_begin(&iter);
-    dict_write_uint8(iter, 0, 0);
-    app_message_outbox_send();
-  }
+
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
+  dict_write_uint8(iter, FN_GET_NEXT_CLASS, 1);
+  app_message_outbox_send();
 }
 
 static void window_load(Window *window) {
@@ -33,7 +32,7 @@ static void window_unload(Window *window) {
 
 static void init(void) {
   window = window_create();
-  window_set_background_color(window, GColorBlueMoon);
+  window_set_background_color(window, GColorDarkCandyAppleRed);
 
   app_message_register_inbox_received(inbox_received_callback);
   app_message_register_inbox_dropped(inbox_dropped_callback);

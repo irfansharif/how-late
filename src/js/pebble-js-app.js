@@ -39,6 +39,7 @@ function use_access_token(code) {
 
     if (!refresh_token) {
         Pebble.showSimpleNotificationOnPebble('Setup', 'Configure your calendar through settings on your phone');
+        code('dummy token');
         return;
     }
 
@@ -102,7 +103,11 @@ function do_google_api() {
     use_access_token(function(access_token) {
         // Use access token to make request to Calendar API
         var dict = {
-            'COURSE_TITLE':access_token.toString()
+            'COURSE_TITLE': 'Physics',
+            'CLASS_LOCATION': 'PHYS 241',
+            'CLASS_TYPE': 'LEC 001',
+            'START_TIME':  '1:30',
+            'END_TIME': '2:20'
         }
         Pebble.sendAppMessage(dict,
             function(e) {
@@ -154,12 +159,13 @@ Pebble.addEventListener("webviewclosed", webview_closed);
 
 Pebble.addEventListener('ready',
   function(e) {
-      do_google_api();
+      //do_google_api();
   }
 )
 
 Pebble.addEventListener('appmessage',
   function(e) {
-      do_google_api();
+      //e.payload.KEY
+      //do_google_api();
   }
 );
