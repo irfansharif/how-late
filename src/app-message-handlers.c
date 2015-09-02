@@ -7,7 +7,7 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   while(t != NULL) {
     static char s_buffer[64];
     switch (t->key) {
-      case CLASS_INDEX:
+      case COURSE_TITLE:
         snprintf(s_buffer, sizeof(s_buffer), "Received '%s'", t->value->cstring);
         text_layer_set_text(tl, s_buffer);
         break;

@@ -1,6 +1,22 @@
 var GOOGLE_CLIENT_ID = "981228318952-461p89bbvhec22j10o80qc3k6d6vuoso.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "dNEEOFUVr_RtTc4t1lJ5p4t_";
 var SERVER = 'http://localhost:8000';
+var CLASS_ARRAY = [
+    {
+        'COURSE_TITLE': 'Physics',
+        'CLASS_LOCATION': 'PHYS 241',
+        'CLASS_TYPE': 'LEC 001',
+        'START_TIME':  '1:30',
+        'END_TIME': '2:20'
+    },
+    {
+        'COURSE_TITLE': 'Maths',
+        'CLASS_LOCATION': 'PHYS 241',
+        'CLASS_TYPE': 'LEC 001',
+        'START_TIME':  '2:30',
+        'END_TIME': '3:20'
+    }
+];
 
 // Retrieves the refresh_token and access_token.
 // - code - the authorization code from Google.
@@ -102,21 +118,6 @@ function refresh_access_token(refresh_token, code) {
 function do_google_api() {
     use_access_token(function(access_token) {
         // Use access token to make request to Calendar API
-        var dict = {
-            'COURSE_TITLE': 'Physics',
-            'CLASS_LOCATION': 'PHYS 241',
-            'CLASS_TYPE': 'LEC 001',
-            'START_TIME':  '1:30',
-            'END_TIME': '2:20'
-        }
-        Pebble.sendAppMessage(dict,
-            function(e) {
-                console.log('Send successful')
-            },
-            function(e) {
-                console.log('Send failed!')
-            }
-        )
     });
 }
 
@@ -159,13 +160,42 @@ Pebble.addEventListener("webviewclosed", webview_closed);
 
 Pebble.addEventListener('ready',
   function(e) {
-      //do_google_api();
+      do_google_api();
   }
-)
+);
+
+function get_next_class() {
+    var dict = CLASS_ARRAY[1];
+    dict.CLASS_INDEX = 'index';
+    Pebble.sendAppMessage(dict,
+        function(e) {
+            console.log('Send successful')
+        },
+        function(e) {
+            console.log('Send failed!')
+        }
+    )
+}
+
+function get_prev_class() {
+    var dict = CLASS_ARRAY[0];
+    dict.CLASS_INDEX = 'index';
+    Pebble.sendAppMessage(dict,
+        function(e) {
+            console.log('Send successful')
+        },
+        function(e) {
+            console.log('Send failed!')
+        }
+    )
+}
 
 Pebble.addEventListener('appmessage',
   function(e) {
-      //e.payload.KEY
-      //do_google_api();
+      if(e.payload.FN_GET_NEXT_CLASS) {
+        get_next_class();
+      } else if(e.payload.FN_GET_PREV_CLASS) {
+        get_prev_class();
+      }
   }
 );
