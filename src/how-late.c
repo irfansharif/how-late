@@ -6,10 +6,7 @@ static Window *window;
 static TextLayer *text_layer;
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  DictionaryIterator *iter;
-  app_message_outbox_begin(&iter);
-  dict_write_uint8(iter, FN_GET_NEXT_CLASS, 1);
-  app_message_outbox_send();
+  
 }
 
 static void window_load(Window *window) {
