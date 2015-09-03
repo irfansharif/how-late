@@ -1,6 +1,7 @@
 var GOOGLE_CLIENT_ID = "981228318952-461p89bbvhec22j10o80qc3k6d6vuoso.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "dNEEOFUVr_RtTc4t1lJ5p4t_";
 var SERVER = 'http://localhost:8000';
+var offset = -1;
 var CLASS_ARRAY = [
     {
         'COURSE_TITLE': 'Physics',
@@ -161,33 +162,36 @@ Pebble.addEventListener("webviewclosed", webview_closed);
 Pebble.addEventListener('ready',
   function(e) {
       do_google_api();
+      get_next_class();
   }
 );
 
 function get_next_class() {
-    var dict = CLASS_ARRAY[1];
-    dict.CLASS_INDEX = 'index';
-    Pebble.sendAppMessage(dict,
-        function(e) {
-            console.log('Send successful')
-        },
-        function(e) {
-            console.log('Send failed!')
+    var dict;
+    if(offset + 1 > CLASS_ARRAY.length - 1) {
+        dict = {
+            'CLASS_INDEX': -1
         }
-    )
+    } else {
+        offset = offset + 1;
+        dict = CLASS_ARRAY[offset];
+        dict.CLASS_INDEX = offset + 1;
+    }
+    Pebble.sendAppMessage(dict)
 }
 
 function get_prev_class() {
-    var dict = CLASS_ARRAY[0];
-    dict.CLASS_INDEX = 'index';
-    Pebble.sendAppMessage(dict,
-        function(e) {
-            console.log('Send successful')
-        },
-        function(e) {
-            console.log('Send failed!')
+    var dict;
+    if(offset - 1 < 0) {
+        dict = {
+            'CLASS_INDEX': -1
         }
-    )
+    } else {
+        offset = offset - 1;
+        dict = CLASS_ARRAY[offset];
+        dict.CLASS_INDEX = offset + 1;
+    }
+    Pebble.sendAppMessage(dict)
 }
 
 Pebble.addEventListener('appmessage',

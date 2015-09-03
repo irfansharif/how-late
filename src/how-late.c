@@ -6,7 +6,7 @@ static Window *window;
 static TextLayer *text_layer;
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  
+
 }
 
 static void window_load(Window *window) {
