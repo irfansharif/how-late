@@ -130,7 +130,7 @@ function do_google_api() {
                 if (!calendars || calendars.length === 0) {
                     return;
                 }
-                req = new XMLHttpRequest():
+                req = new XMLHttpRequest();
                 req.open("GET", "https://www.googleapis.com/calendar/v3/calendars/" + calendars[0].id + "/events?maxResults=10&orderBy=startTime", true)
                 req.onload = function(e) {
                     if (req.readyState = 4 && req.status == 200) {
@@ -145,7 +145,7 @@ function do_google_api() {
             }
         };
         req.send();
-    }
+    })
 }
 
 // When you click on Settings in Pebble's phone app. Go to the configuration.html page.
