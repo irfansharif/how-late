@@ -1,0 +1,4 @@
+.idea
+.lock-waf*
+CMakeLists.txt
+build
