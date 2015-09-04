@@ -13,7 +13,7 @@
         {{#if code_error}}<p style="color: red">{{code_error}}</p>{{/if}}
 
         {{#unless code}}
-        <p><a href="https://accounts.google.com/o/oauth2/auth?response_type=code&access_type=offline&prompt=consent%20select_account&client_id=981228318952-461p89bbvhec22j10o80qc3k6d6vuoso.apps.googleusercontent.com&redirect_uri=http://localhost:8000/catchauth.html&scope=https://www.googleapis.com/auth/calendar.readonly">
+        <p><a href="https://accounts.google.com/o/oauth2/auth?response_type=code&access_type=offline&prompt=consent%20select_account&client_id=981228318952-7u0h1ar0i7vj53chdtt7uif2lvdh1ecn.apps.googleusercontent.com&redirect_uri=http://irfansharif.github.io/how-late/catchauth.html&scope=https://www.googleapis.com/auth/calendar.readonly">
             Give How-Late access to your Google Calendar
         </a></p>
         {{/unless}}
@@ -46,8 +46,8 @@
             var source = $("#hb-template").html();
             var template = Handlebars.compile(source);
             
-            conf.CONFIG_URL = "http://localhost:8000/configuration.html#"
-            conf.CATCHAUTH_URL = "http://localhost:8000/catchauth.html";
+            conf.CONFIG_URL = "http://irfansharif.github.io/how-late/configuration.html#"
+            conf.CATCHAUTH_URL = "http://irfansharif.github.io/how-late/catchauth.html";
 
             $('body').append(template(conf));
 
@@ -61,6 +61,7 @@
                 window.location.href = "pebblejs://close#" + JSON.stringify({
                     "code": $("#code").val()
                 });
+                window.location.reload();
             });
         </script>
     </body>
