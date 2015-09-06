@@ -17,13 +17,23 @@ def options(ctx):
 
 def configure(ctx):
     ctx.load('pebble_sdk')
-    jshint.bake(['--config', 'pebble-jshintrc'])
+    jshint.bake(['--config', './pebble-jshintrc'])
+
+def js_jshint(task):
+    inputs = (input.abspath() for input in task.inputs)
+    jshint(*inputs)
 
 def build(ctx):
     ctx.load('pebble_sdk')
 
     # Run jshint before compiling the app.
-    jshint("src/js/pebble-js-app.js")
+    # jshint("src/js/pebble-js-app.js")
+
+    js_sources = [
+      'src/js/pebble-js-app.js'
+    ]
+    ctx(rule=js_jshint, source=js_sources)
+
 
     build_worker = os.path.exists('worker_src')
     binaries = []

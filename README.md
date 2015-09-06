@@ -18,7 +18,9 @@ git push origin my-new-feature
 
 #### Compiling
 > Download and install the latest SDK from http://developer.getpebble.com/sdk/
-> You also need the latest version of node & JSHint
+
+> You also need nodejs & JSHint
+
 ```
 sudo apt-get install nodejs
 sudo npm install -g jshint
