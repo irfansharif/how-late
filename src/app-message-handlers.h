@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include <regex.h>
 
 // Keys identify corresponding functions in pebble-js-app
 #define FN_CLASS_FINISHED 00

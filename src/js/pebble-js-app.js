@@ -1,21 +1,21 @@
 var GOOGLE_CLIENT_ID = "981228318952-461p89bbvhec22j10o80qc3k6d6vuoso.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "dNEEOFUVr_RtTc4t1lJ5p4t_";
-var SERVER = 'http://localhost:8000';
+var SERVER = 'http://irfansharif.github.io/how-late';
 var offset = -1;
 var CLASS_ARRAY = [
     {
         'COURSE_TITLE': 'Physics',
         'CLASS_LOCATION': 'PHYS 241',
         'CLASS_TYPE': 'LEC 001',
-        'START_TIME':  '1:30',
-        'END_TIME': '2:20'
+        'START_TIME':  '',
+        'END_TIME': ''
     },
     {
         'COURSE_TITLE': 'Maths',
         'CLASS_LOCATION': 'PHYS 241',
         'CLASS_TYPE': 'LEC 001',
-        'START_TIME':  '2:30',
-        'END_TIME': '3:20'
+        'START_TIME':  '',
+        'END_TIME': ''
     }
 ];
 
@@ -169,6 +169,9 @@ function webview_closed(e) {
     var config = JSON.parse(json);
 
     var code = config.code;
+
+    // TODO: Munaz fix code retrieval from server, webview_close event never triggered, temporary placement
+    code = '4/3-Ne2AeeJVdgZpkjO6ITsvCBRrok7CR8uYSK1tlnqtY';
 
     var db = window.localStorage;
     var old_code = db.getItem("code");
