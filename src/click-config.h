@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "interface-layer/class-functions.h"
 
 void click_config_provider(void *context);
 

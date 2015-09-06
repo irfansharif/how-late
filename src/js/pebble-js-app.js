@@ -16,6 +16,34 @@ var CLASS_ARRAY = [
         'CLASS_TYPE': 'LEC 001',
         'START_TIME':  '1441511592000',
         'END_TIME': '1441521591001'
+    },
+    {
+        'COURSE_TITLE': 'Circuits',
+        'CLASS_LOCATION': 'PHYS 241',
+        'CLASS_TYPE': 'LEC 001',
+        'START_TIME':  '1441511592000',
+        'END_TIME': '1441521591001'
+    },
+    {
+        'COURSE_TITLE': 'Programming',
+        'CLASS_LOCATION': 'PHYS 241',
+        'CLASS_TYPE': 'LEC 001',
+        'START_TIME':  '1441511592000',
+        'END_TIME': '1441521591001'
+    },
+    {
+        'COURSE_TITLE': 'Discrete',
+        'CLASS_LOCATION': 'PHYS 241',
+        'CLASS_TYPE': 'LEC 001',
+        'START_TIME':  '1441511592000',
+        'END_TIME': '1441521591001'
+    },
+    {
+        'COURSE_TITLE': 'Embedded',
+        'CLASS_LOCATION': 'PHYS 241',
+        'CLASS_TYPE': 'LEC 001',
+        'START_TIME':  '1441511592000',
+        'END_TIME': '1441521591001'
     }
 ];
 
@@ -223,12 +251,20 @@ function get_prev_class() {
     Pebble.sendAppMessage(dict)
 }
 
+function class_finished() {
+    CLASS_ARRAY.shift();
+    offset = -1;
+    get_next_class();
+}
+
 Pebble.addEventListener('appmessage',
   function(e) {
       if(e.payload.FN_GET_NEXT_CLASS) {
         get_next_class();
       } else if(e.payload.FN_GET_PREV_CLASS) {
         get_prev_class();
+      } else if(e.payload.FN_CLASS_FINISHED) {
+        class_finished();
       }
   }
 );
