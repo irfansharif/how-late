@@ -19,11 +19,11 @@ git push origin my-new-feature
 #### Compiling
 > Download and install the latest SDK from http://developer.getpebble.com/sdk/
 
-> You also need nodejs & JSHint
+> You also need NodeJS, JSHint & UglifyJS
 
 ```
 sudo apt-get install nodejs
-sudo npm install -g jshint
+sudo npm install -g jshint && sudo npm install -g uglifyjs
 ```
 
 ```sh

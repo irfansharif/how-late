@@ -11,7 +11,6 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         if( t->value->int32 == -1 ) {
           // trigger bounce animation here
         } else if (t->value->int32 == CURRENT_CLASS_INDEX)
-          // cache END_TIME
           cache_end_time = 1;
         else
           cache_end_time = 0;
