@@ -1,6 +1,5 @@
 #include <pebble.h>
 #include "app-message-handlers.h"
-#define CURRENT_CLASS_INDEX 1
 
 void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   TextLayer *tl = (TextLayer*) context;
@@ -11,10 +10,11 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
       case CLASS_INDEX:
         if( t->value->int32 == -1 ) {
           // trigger bounce animation here
-          return;
-        } else if (t->value->int32 == CURRENT_CLASS_INDEX) {
+        } else if (t->value->int32 == CURRENT_CLASS_INDEX)
           // cache END_TIME
-        }
+          cache_end_time = 1;
+        else
+          cache_end_time = 0;
         break;
       case COURSE_TITLE:
         snprintf(s_buffer, sizeof(s_buffer), "Received '%s'", t->value->cstring);
@@ -27,6 +27,8 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
       case START_TIME:
         break;
       case END_TIME:
+        if(cache_end_time)
+          *cached_time = (time_t) t->value;
         break;
     }
     t = dict_read_next(iterator);

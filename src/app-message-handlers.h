@@ -1,5 +1,4 @@
 #include <pebble.h>
-#include <regex.h>
 
 // Keys identify corresponding functions in pebble-js-app
 #define FN_CLASS_FINISHED 00
@@ -13,6 +12,11 @@
 #define CLASS_TYPE 13
 #define START_TIME 14
 #define END_TIME 15
+
+#define CURRENT_CLASS_INDEX 1
+
+time_t *cached_time;
+int cache_end_time;
 
 void inbox_received_callback(DictionaryIterator *iterator, void *context);
 void inbox_dropped_callback(AppMessageResult reason, void *context);

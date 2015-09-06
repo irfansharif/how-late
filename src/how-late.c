@@ -6,7 +6,9 @@ static Window *window;
 static TextLayer *text_layer;
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-
+  if(mktime(tick_time) > *cached_time) {
+    // Trigger FN_CLASS_FINISHED
+  }
 }
 
 static void window_load(Window *window) {
