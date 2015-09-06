@@ -251,9 +251,19 @@ function get_prev_class() {
     Pebble.sendAppMessage(dict)
 }
 
+function update_class_cache(finished_class) {
+    do_google_api();
+
+    //TODO: Remove following and parameter after Munaz finishes event parser
+    setTimeout(function() {
+        CLASS_ARRAY.push(finished_class);
+    },5000)
+}
+
 function class_finished() {
-    CLASS_ARRAY.shift();
+    var finished_class = CLASS_ARRAY.shift();
     offset = -1;
+    update_class_cache(finished_class);
     get_next_class();
 }
 
