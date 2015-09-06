@@ -5,6 +5,8 @@
 # Feel free to customize this to your needs.
 #
 
+# Use the python sh module to run the jshint command
+from sh import jshint
 import os.path
 
 top = '.'
@@ -15,9 +17,13 @@ def options(ctx):
 
 def configure(ctx):
     ctx.load('pebble_sdk')
+    jshint.bake(['--config', 'pebble-jshintrc'])
 
 def build(ctx):
     ctx.load('pebble_sdk')
+
+    # Run jshint before compiling the app.
+    jshint("src/js/pebble-js-app.js")
 
     build_worker = os.path.exists('worker_src')
     binaries = []

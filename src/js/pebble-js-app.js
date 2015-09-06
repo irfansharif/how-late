@@ -68,11 +68,11 @@ function resolve_tokens(code) {
         db.removeItem("code");
         db.setItem("code_error", "Unable to verify the your Google authentication.");
     };
-    req.send("code="+encodeURIComponent(code)
-            +"&client_id="+GOOGLE_CLIENT_ID
-            +"&client_secret="+GOOGLE_CLIENT_SECRET
-            +"&redirect_uri=" + SERVER + "/catchauth.html"
-            +"&grant_type=authorization_code");
+    req.send("code="+encodeURIComponent(code) +
+            "&client_id="+GOOGLE_CLIENT_ID +
+            "&client_secret="+GOOGLE_CLIENT_SECRET +
+            "&redirect_uri=" + SERVER + "/catchauth.html" +
+            "&grant_type=authorization_code");
 }
 
 // Runs some code after validating and possibly refreshing the access_token.
@@ -89,7 +89,7 @@ function use_access_token(code) {
     }
 
     valid_token(access_token, code, function() {
-        refresh_access_token(refresh_token, code)
+        refresh_access_token(refresh_token, code);
     });
 }
 
@@ -137,10 +137,10 @@ function refresh_access_token(refresh_token, code) {
             }
         }
     };
-    req.send("refresh_token="+encodeURIComponent(refresh_token)
-            +"&client_id="+GOOGLE_CLIENT_ID,
-            +"&client_secret="+GOOGLE_CLIENT_SECRET,
-            +"&grant_type=refresh_token");
+    req.send("refresh_token="+encodeURIComponent(refresh_token) +
+            "&client_id="+GOOGLE_CLIENT_ID, +
+            "&client_secret="+GOOGLE_CLIENT_SECRET, +
+            "&grant_type=refresh_token");
 }
 
 // Finally, execute our API calls, which will then pass messages back to the watch to show stuff
@@ -159,21 +159,23 @@ function do_google_api() {
                     return;
                 }
                 req = new XMLHttpRequest();
-                req.open("GET", "https://www.googleapis.com/calendar/v3/calendars/" + calendars[0].id + "/events?maxResults=10&orderBy=startTime", true)
+                req.open("GET", "https://www.googleapis.com/calendar/v3/calendars/" + 
+                    calendars[0].id + 
+                    "/events?maxResults=10&orderBy=startTime", true);
                 req.onload = function(e) {
-                    if (req.readyState = 4 && req.status == 200) {
+                    if (req.readyState == 4 && req.status == 200) {
                         // Get list of events https://developers.google.com/google-apps/calendar/v3/reference/events/list
                         result = JSON.parse(req.responseText);
                         // Get events https://developers.google.com/google-apps/calendar/v3/reference/events#resource
                         var events = result.items;
                         // Do stuff with events here
                     }
-                }
+                };
                 req.send();
             }
         };
         req.send();
-    })
+    });
 }
 
 // When you click on Settings in Pebble's phone app. Go to the configuration.html page.
@@ -228,13 +230,13 @@ function get_next_class() {
     if(offset + 1 > CLASS_ARRAY.length - 1) {
         dict = {
             'CLASS_INDEX': -1
-        }
+        };
     } else {
         offset = offset + 1;
         dict = CLASS_ARRAY[offset];
         dict.CLASS_INDEX = offset + 1;
     }
-    Pebble.sendAppMessage(dict)
+    Pebble.sendAppMessage(dict);
 }
 
 function get_prev_class() {
@@ -242,13 +244,13 @@ function get_prev_class() {
     if(offset - 1 < 0) {
         dict = {
             'CLASS_INDEX': -1
-        }
+        };
     } else {
         offset = offset - 1;
         dict = CLASS_ARRAY[offset];
         dict.CLASS_INDEX = offset + 1;
     }
-    Pebble.sendAppMessage(dict)
+    Pebble.sendAppMessage(dict);
 }
 
 function update_class_cache(finished_class) {
@@ -257,7 +259,7 @@ function update_class_cache(finished_class) {
     //TODO: Remove following and parameter after Munaz finishes event parser
     setTimeout(function() {
         CLASS_ARRAY.push(finished_class);
-    },5000)
+    }, 5000);
 }
 
 function class_finished() {
