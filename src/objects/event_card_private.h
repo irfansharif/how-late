@@ -8,7 +8,6 @@
 
 typedef struct {
     TextLayer *course_title;
-    TextLayer *course_number;
     TextLayer *class_location;
     TextLayer *class_type;
     TextLayer *start_time;
