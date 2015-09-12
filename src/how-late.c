@@ -5,7 +5,6 @@
 #include "interface-layer/display-layer.h"
 
 static Window *window;
-//static TextLayer *text_layer;
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   if(mktime(tick_time) > *cached_time) {
@@ -18,18 +17,47 @@ static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-//  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
   event_card->course_title = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
+  event_card->start_time = text_layer_create((GRect) { .origin = { 0, 52 }, .size = { bounds.size.w, 20 } });
+  event_card->end_time = text_layer_create((GRect) { .origin = { 0, 32 }, .size = { bounds.size.w, 20 } });
+  event_card->class_location = text_layer_create((GRect) { .origin = { 0, 12 }, .size = { bounds.size.w, 20 } });
+  event_card->class_type = text_layer_create((GRect) { .origin = { 0, 92 }, .size = { bounds.size.w, 20 } });
+
+
   text_layer_set_text(event_card->course_title, "Waiting..");
   text_layer_set_text_alignment(event_card->course_title, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(event_card->course_title));
 
-  app_message_set_context(event_card->course_title);
+
+  text_layer_set_text(event_card->start_time, "Waiting..");
+  text_layer_set_text_alignment(event_card->start_time, GTextAlignmentCenter);
+  layer_add_child(window_layer, text_layer_get_layer(event_card->start_time));
+
+
+  text_layer_set_text(event_card->end_time, "Waiting..");
+  text_layer_set_text_alignment(event_card->end_time, GTextAlignmentCenter);
+  layer_add_child(window_layer, text_layer_get_layer(event_card->end_time));
+
+
+  text_layer_set_text(event_card->class_location, "Waiting..");
+  text_layer_set_text_alignment(event_card->class_location, GTextAlignmentCenter);
+  layer_add_child(window_layer, text_layer_get_layer(event_card->class_location));
+
+
+  text_layer_set_text(event_card->class_type, "Waiting..");
+  text_layer_set_text_alignment(event_card->class_type, GTextAlignmentCenter);
+  layer_add_child(window_layer, text_layer_get_layer(event_card->class_type));
+
+  app_message_set_context(event_card);
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 }
 
 static void window_unload(Window *window) {
   text_layer_destroy(event_card->course_title);
+  text_layer_destroy(event_card->start_time);
+  text_layer_destroy(event_card->end_time);
+  text_layer_destroy(event_card->class_location);
+  text_layer_destroy(event_card->class_type);
 }
 
 static void init(void) {
@@ -60,7 +88,6 @@ static void init(void) {
 static void deinit(void) {
   free(event_card);
   free(ecd);
-//  free(&eventCards);
   window_destroy(window);
 }
 

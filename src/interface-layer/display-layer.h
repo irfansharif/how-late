@@ -4,4 +4,4 @@
 static TextLayer *text_layer;
 static EventCard *event_card;
 
-void display_event(EventCardData *ecd);
+void display_event( EventCard *ec, EventCardData *ecd);
