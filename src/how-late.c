@@ -1,6 +1,7 @@
 #include <pebble.h>
 #include "click-config.h"
 #include "app-message-handlers.h"
+#include "objects/event_card_private.h"
 
 static Window *window;
 static TextLayer *text_layer;
@@ -30,6 +31,11 @@ static void window_unload(Window *window) {
 }
 
 static void init(void) {
+  EventCard *eventCard = malloc(sizeof (EventCard));
+  memset(eventCard, 0, sizeof(EventCard));
+
+  memset(&eventCards, 0, sizeof(EventCardData) * 10);
+
   window = window_create();
   window_set_background_color(window, GColorDarkCandyAppleRed);
 

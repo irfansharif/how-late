@@ -10,9 +10,7 @@ typedef struct {
     char *course_title;
     char *class_location;
     char *class_type;
-    char *start_time;
-    char *end_time;
+    time_t *start_time;
+    time_t *end_time;
     int icon;
 } EventCardData;
-
-
