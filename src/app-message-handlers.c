@@ -15,10 +15,6 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   memset(ecd, 0, sizeof(EventCardData));
   int class_index_num = -1;
 
-  static char class_loc_buffer[64];
-  static char class_typ_buffer[64];
-  static char start_tm_buffer[64];
-  static char end_tm_buffer[64];
   Tuple *t = dict_read_first(iterator);
   while(t != NULL) {
     switch (t->key) {
@@ -35,23 +31,15 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         ecd->course_title = t->value->cstring;
         break;
       case CLASS_LOCATION:
-        snprintf(class_loc_buffer, sizeof(class_loc_buffer), "'%s'", t->value->cstring);
-        text_layer_set_text(class_loc, class_loc_buffer);
         ecd->class_location = t->value->cstring;
         break;
       case CLASS_TYPE:
-        snprintf(class_typ_buffer, sizeof(class_typ_buffer), "'%s'", t->value->cstring);
-        text_layer_set_text(class_typ, class_typ_buffer);
         ecd->class_type = t->value->cstring;
         break;
       case START_TIME:
-        snprintf(start_tm_buffer, sizeof(start_tm_buffer), "'%s'", t->value->cstring);
-        text_layer_set_text(start_tm, start_tm_buffer);
         ecd->start_time = (time_t*) t->value;
         break;
       case END_TIME:
-        snprintf(end_tm_buffer, sizeof(end_tm_buffer), "'%s'", t->value->cstring);
-        text_layer_set_text(end_tm, end_tm_buffer);
         ecd->end_time = (time_t*) t->value;
         if(cache_end_time) {
           *cached_time = (time_t) t->value;
