@@ -3,6 +3,7 @@
 #include "objects/event_card_data.h"
 
 EventCardData eventCards[10];
+EventCardData *ecd;
 
 time_t *cached_time;
 int cache_end_time;

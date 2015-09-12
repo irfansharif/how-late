@@ -2,9 +2,10 @@
 #include "click-config.h"
 #include "app-message-handlers.h"
 #include "objects/event_card_private.h"
+#include "interface-layer/display-layer.h"
 
 static Window *window;
-static TextLayer *text_layer;
+//static TextLayer *text_layer;
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   if(mktime(tick_time) > *cached_time) {
@@ -17,24 +18,25 @@ static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
-  text_layer_set_text(text_layer, "Waiting..");
-  text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
-  layer_add_child(window_layer, text_layer_get_layer(text_layer));
+//  text_layer = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
+  event_card->course_title = text_layer_create((GRect) { .origin = { 0, 72 }, .size = { bounds.size.w, 20 } });
+  text_layer_set_text(event_card->course_title, "Waiting..");
+  text_layer_set_text_alignment(event_card->course_title, GTextAlignmentCenter);
+  layer_add_child(window_layer, text_layer_get_layer(event_card->course_title));
 
-  app_message_set_context(text_layer);
+  app_message_set_context(event_card->course_title);
   app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 }
 
 static void window_unload(Window *window) {
-  text_layer_destroy(text_layer);
+  text_layer_destroy(event_card->course_title);
 }
 
 static void init(void) {
-  EventCard *eventCard = malloc(sizeof (EventCard));
-  memset(eventCard, 0, sizeof(EventCard));
+  event_card = malloc(sizeof (EventCard));
+  memset(event_card, 0, sizeof(EventCard));
 
-  memset(&eventCards, 0, sizeof(EventCardData) * 10);
+//  memset(&eventCards, 0, sizeof(EventCardData) * 10);
 
   window = window_create();
   window_set_background_color(window, GColorDarkCandyAppleRed);
@@ -55,7 +57,10 @@ static void init(void) {
   window_stack_push(window, animated);
 }
 
-static void deinit(void) {  
+static void deinit(void) {
+  free(event_card);
+  free(ecd);
+//  free(&eventCards);
   window_destroy(window);
 }
 

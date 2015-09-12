@@ -1,18 +1,19 @@
 #include <pebble.h>
 #include "app-message-handlers.h"
+#include "interface-layer/display-layer.h"
 
 void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   TextLayer *tl = (TextLayer*) context;
-  int index = -1;
-  EventCardData *ecd = malloc(sizeof(EventCardData));
+  ecd = malloc(sizeof(EventCardData));
   memset(ecd, 0, sizeof(EventCardData));
+  int class_index_num = -1;
 
   Tuple *t = dict_read_first(iterator);
   while(t != NULL) {
     static char s_buffer[64];
     switch (t->key) {
       case CLASS_INDEX:
-        index = t->value->int32;
+        class_index_num = t->value->int32;
         if( t->value->int32 == -1 ) {
           // trigger bounce animation here
         } else if (t->value->int32 == CURRENT_CLASS_INDEX)
@@ -41,9 +42,13 @@ void inbox_received_callback(DictionaryIterator *iterator, void *context) {
         }
         break;
     }
-    if(index != -1 )
-      eventCards[index] = *ecd;
     t = dict_read_next(iterator);
+  }
+
+
+  if(class_index_num != -1 ) {
+    eventCards[class_index_num] = *ecd;
+    display_event(ecd);
   }
 }
 
