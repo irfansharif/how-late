@@ -3,8 +3,6 @@
 //
 
 #include "display-layer.h"
-#include "../objects/event_card_private.h"
-#include "../objects/event_card_data.h"
 
 static char course_tl_buffer[64];
 static char class_loc_buffer[64];
@@ -22,9 +20,11 @@ void display_event( EventCard *ec, EventCardData *ecd) {
     snprintf(class_typ_buffer, sizeof(class_typ_buffer), "%s", ecd->class_type);
     text_layer_set_text(ec->class_type, class_typ_buffer);
 
-    snprintf(start_tm_buffer, sizeof(start_tm_buffer), "%s", (const char*) ecd->start_time);
+    snprintf(start_tm_buffer, sizeof(start_tm_buffer), "%i-%i-%i", localtime(ecd->start_time)->tm_hour,
+             localtime(ecd->start_time)->tm_min, localtime(ecd->start_time)->tm_sec);
     text_layer_set_text(ec->start_time, start_tm_buffer);
 
-    snprintf(end_tm_buffer, sizeof(end_tm_buffer), "%s", (const char*) ecd->end_time);
+    snprintf(end_tm_buffer, sizeof(end_tm_buffer), "%i-%i-%i", localtime(ecd->end_time)->tm_hour,
+             localtime(ecd->end_time)->tm_min, localtime(ecd->end_time)->tm_sec );
     text_layer_set_text(ec->end_time, end_tm_buffer);
 }

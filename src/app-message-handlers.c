@@ -2,14 +2,10 @@
 #include "app-message-handlers.h"
 #include "interface-layer/display-layer.h"
 #include "objects/event_card_private.h"
+#include "objects/event_card_data.h"
 
 void inbox_received_callback(DictionaryIterator *iterator, void *context) {
   EventCard *ec = (EventCard*) context;
-  TextLayer *course_tl = ec->course_title;
-  TextLayer *class_loc = ec->class_location;
-  TextLayer *class_typ = ec->class_type;
-  TextLayer *start_tm = ec->start_time;
-  TextLayer *end_tm = ec->end_time;
 
   ecd = malloc(sizeof(EventCardData));
   memset(ecd, 0, sizeof(EventCardData));
